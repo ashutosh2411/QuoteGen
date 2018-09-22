@@ -44,24 +44,25 @@ for idx, val in enumerate(lines):
     for line in para:
         line = line.replace("\xe2\x80\x9c",'"').replace("\xe2\x80\x99","'").replace("\xe2\x80\x9d",'"')
         w, h = draw.textsize(line, font=font)
-        draw.text(((MAX_W - w) / 2, current_h), line, font=font)
+        draw.text(((MAX_W - w) / 2, current_h), line, font=font, fill=(0,0,0,255))
         current_h += h + pad
     # setting up padding and positioning for author text
     current_h2, pad2 = 900, 80
     currentauthor = authors[idx]
     w, h = draw.textsize(currentauthor, font=authorfont)
-    draw.text(((MAX_W - w) / 2, (current_h + 100)), currentauthor, font=authorfont)
+    draw.text(((MAX_W - w) / 2, (current_h + 100)), currentauthor, font=authorfont, fill=(0,0,0,255))
     current_h2 += h + pad2
     # setting up padding and positining for optional text
     current_h3, pad3 = 1200, 30
     sitelink = "Akshar, Literary Arts Society, IIT Palakkad"
     w, h = draw.textsize(sitelink, font=linkfont)
-    draw.text(((MAX_W - w) / 2, current_h3), sitelink, font=linkfont)
+    draw.text(((MAX_W - w) / 2, current_h3), sitelink, font=linkfont,fill=(0,0,0,255))
     current_h3 += h + pad3
-    im.save("out/image_%d.png" %idx)
     
     # loading optional logo and converting to RGBA for transparency support
-    # logo = Image.open('logo.png').convert('RGBA')
-    # logo_w, logo_h = logo.size
-    # im.paste(logo, (50,1150), logo)
+    logo = Image.open('logo.png').convert('RGBA')
+    logo = logo.resize((100, (100*1280)/1920), Image.ANTIALIAS)
+    logo_w, logo_h = logo.size
+    im.paste(logo, (0,1280-logo_h), logo)
     # saving the image to our chosen location
+    im.save("out/image_%d.png" %idx)
